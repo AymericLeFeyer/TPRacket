@@ -40,6 +40,16 @@
     (if (=  (+ 1 (length A)) n)
         '()
         (cons (colonne A n) (Transpo A (+ n 1))))))
+
+(define infixe
+  (lambda (M)
+    (infixe2 M (length M))))
+
+(define infixe2
+  (lambda (M n)
+    (if (= 0 n)
+        '()
+        (cons (car (ligne M n)) (infixe2 M (- n 1))))))
   
 
     
