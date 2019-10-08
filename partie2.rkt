@@ -30,6 +30,16 @@
 (define colonne
   (lambda (M j)
     (reverse (colonneReversed M j (length M)))))
+
+(define T
+  (lambda (A)
+    (Transpo A 1) ))
+
+(define Transpo
+  (lambda (A n)
+    (if (=  (+ 1 (length A)) n)
+        '()
+        (cons (colonne A n) (Transpo A (+ n 1))))))
   
 
     
