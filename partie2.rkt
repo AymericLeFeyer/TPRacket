@@ -14,6 +14,23 @@
     (ligne (ligne M i) j)
     ))
 
-(define 
+(define colonneReversed
+  (lambda (M j n)
+    (if (= n 0)
+        '()
+        (cons (element M n j) (colonneReversed M j (- n 1))))))
+   
+
+(define reverse
+  (lambda (A)
+    (if (null? A)
+        '()
+        (append (reverse (cdr A)) (list(car A))))))
+
+(define colonne
+  (lambda (M j)
+    (reverse (colonneReversed M j (length M)))))
+  
+
     
     
