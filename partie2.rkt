@@ -1,7 +1,13 @@
 #lang racket
 
 
-(define M' ((1.2 6 -1.3)(2.5 -1.1 2.9)(3.8 -4 -2.7)))
+(define M' ((1.2 6 -1.3)
+            (2.5 -1.1 2.9)
+            (3.8 -4 -2.7)))
+
+(define N' ((1 2 3)
+            (2 4 6)
+            (3 6 9)))
 
 (define ligne
   (lambda (M i)
@@ -33,13 +39,17 @@
 
 (define T
   (lambda (A)
-    (Transpo A 1) ))
+    (transpo A 1) ))
 
-(define Transpo
+(define transpo
   (lambda (A n)
     (if (=  (+ 1 (length A)) n)
         '()
-        (cons (colonne A n) (Transpo A (+ n 1))))))
+        (cons (colonne A n) (transpo A (+ n 1))))))
+
+(define concat
+  (lambda (A B)
+    (append A B)))
 
 (define infixe
   (lambda (M)
@@ -49,7 +59,27 @@
   (lambda (M n)
     (if (= 0 n)
         '()
-        (cons (car (ligne M n)) (infixe2 M (- n 1))))))
+        (concat (ligne M n) (infixe2 M (- n 1))))))
+
+(define estSymetrique?
+  (lambda (M)
+    (estSymetrique2? (infixe (T M)) (infixe M) (length (infixe M)))))
+
+(define estSymetrique2?
+  (lambda (M Tr n)
+    (if (= n 0)
+        #t
+        (if (= (car M) (car Tr))
+            (estSymetrique2? (cdr M) (cdr Tr) (- n 1))
+            #f))))
+
+
+        
+    
+
+
+
+
   
 
     
