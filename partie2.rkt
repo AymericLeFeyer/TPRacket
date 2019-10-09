@@ -73,7 +73,28 @@
             (estSymetrique2? (cdr M) (cdr Tr) (- n 1))
             #f))))
 
+(define sommeListe
+  (lambda (A B)
+    (if (= (length A) (length B))
+        (if (null? A)
+            '()
+            (concat (list(+ (car A) (car B))) (sommeListe (cdr A) (cdr B) )))
+        ("erreur"))))
 
+(define sommeMatrice
+  (lambda (A B)
+    (sommeMatrice2 A B 1)))
+
+(define sommeMatrice2
+  (lambda (A B n)
+    (if (= n (+ 1 (length A)))
+        '()
+        (concat (list(sommeListe (ligne A n) (ligne B n))) (sommeMatrice2 A B (+ n 1))))))
+        
+    
+
+    
+    
         
     
 
