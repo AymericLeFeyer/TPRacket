@@ -6,8 +6,8 @@
             (3.8 -4 -2.7)))
 
 (define N' ((1 2 3)
-            (2 4 6)
-            (3 6 9)))
+            (4 5 6)
+            (7 8 9)))
 
 (define ligne
   (lambda (M i)
@@ -90,7 +90,20 @@
     (if (= n (+ 1 (length A)))
         '()
         (concat (list(sommeListe (ligne A n) (ligne B n))) (sommeMatrice2 A B (+ n 1))))))
+
+(define produitLigne
+  (lambda (A B)
+    (if (null? A)
+        0
+        (+ (* (car A) (car B)) (produitLigne (cdr A) (cdr B))))))
+
+
         
+            
+        
+        
+        
+    
     
 
     
