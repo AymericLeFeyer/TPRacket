@@ -97,8 +97,18 @@
         0
         (+ (* (car A) (car B)) (produitLigne (cdr A) (cdr B))))))
 
+(define produit
+  (lambda (A B)
+    (produit2 A B 1 1)))
 
-        
+(define produit2
+  (lambda (A B i j)
+    (if (= i (+ 1 (length A)))
+        '()
+        (if (= j (+ 1 (length B)))
+            (list(concat (list(produitLigne (ligne A i) (colonne B j))) (produit2 A B (+ i 1) 1)))
+            (concat (list(produitLigne (ligne A i) (colonne B j))) (produit2 A B i (+ j 1)))))))
+            
             
         
         
