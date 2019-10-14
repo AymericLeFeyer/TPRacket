@@ -104,27 +104,9 @@
 (define produit2
   (lambda (A B i j)
     (if (= i (+ 1 (length A)))
-        '()
+        '()      
         (if (= j (+ 1 (length B)))
-            (list(concat (list(produitLigne (ligne A i) (colonne B j))) (produit2 A B (+ i 1) 1)))
-            (concat (list(produitLigne (ligne A i) (colonne B j))) (produit2 A B i (+ j 1)))))))
-            
-            
-        
-        
-        
-    
-    
-
-    
-    
-        
-    
-
-
-
-
+            (cons (list(car(produitLigne (ligne A i) (colonne B j)))) (produit2 A B (+ i 1) j))
+            (cons (list(car(produitLigne (ligne A i) (colonne B j)))) (produit2 A B i (+ j 1)))))))
   
-
-    
     
