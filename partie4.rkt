@@ -1,8 +1,8 @@
 #lang racket
 
 (define L' ((("Helin" "Dylan" "29/10/1999" 1) (60 "rue Waldeck Rousseaux" 59410 "Anzin" "France") "0652274310")
-            (("Helin" "Steven" "29/10/1999" 2) (60 "rue Waldeck Rousseaux" 59410 "Anzin" "France") "0652274310")
-            (("Baudelet" "Conrad" "29/10/1999" 3) (60 "rue Waldeck Rousseaux" 59410 "Anzin" "France") "0652274310")))
+            (("Helin" "Steven" "30/10/1999" 2) (60 "rue Waldeck Rousseaux" 59410 "Anzin" "France") "0652274312")
+            (("Baudelet" "Conrad" "31/10/1999" 3) (23 "rue Test" 59345 "Escaudin" "France") "0652274513")))
 
 (define Aymeric' (("Le Feyer" "Aymeric" "29/10/1999" 4) (60 "rue Waldeck Rousseaux" 59410 "Anzin" "France") "0652274310"))
 (define Conrad' (("Baudelet" "Conrad" "29/10/1999" 3) (60 "rue Waldeck Rousseaux" 59410 "Anzin" "France") "0652274310"))
@@ -39,6 +39,19 @@
   (lambda (P)
     (car(cdr(cdr(cdr (car P)))))))
 
+(define getNumeroRue
+  (lambda (P)
+    (caadr P)))
+
+(define getTelephone
+  (lambda (P)
+    (caddr P)))
+
+
+(define getVille
+  (lambda (P)
+    (cdr(car(cdr(cdr(cdr(car(P)))))))))
+
 (define present
   (lambda (L n)
     (if (null? L)
@@ -69,6 +82,72 @@
                     (cons (car L) (detruirePersonne (cdr L) P)))
                 "erreur"))))
 
+(define getPersonne
+  (lambda (L T P)
+    (if (null? L)
+        "La base est nulle"
+        (if (equal? T "identifiant")
+            (getPersonneParIdentifiant L P 1)
+            (if (equal? T "nom")
+                (getPersonneParNom L P 1)
+                (if (equal? T "prenom")
+                    (getPersonneParPrenom L P 1)
+                    (if (equal? T "telephone")
+                        (getPersonneParTelephone L P 1)
+                        (if (equal? T "naissance")
+                            (getPersonneParNaissance L P 1)
+                            (if (equal? T "ville")
+                                (getPersonneParVille L P 1)
+                                "parametre inconnu")))))))))
+            
+(define getPersonneParIdentifiant
+  (lambda (L P n)
+    (if (<= n (length L))
+        (if (= P (getID (getPersonneParIndex L n)))
+            (getPersonneParIndex L n)
+            (getPersonneParIdentifiant L P (+ n 1)))
+        "introuvable")))
+
+(define getPersonneParNom
+  (lambda (L P n)
+    (if (<= n (length L))
+        (if (equal? P (getNom (getPersonneParIndex L n)))
+            (getPersonneParIndex L n)
+            (getPersonneParNom L P (+ n 1)))
+        "introuvable")))
+        
+
+(define getPersonneParPrenom
+  (lambda (L P n)
+    (if (<= n (length L))
+        (if (equal? P (getPrenom (getPersonneParIndex L n)))
+            (getPersonneParIndex L n)
+            (getPersonneParPrenom L P (+ n 1)))
+        "introuvable")))
+
+(define getPersonneParTelephone
+  (lambda (L P n)
+    (if (<= n (length L))
+        (if (equal? P (getTelephone (getPersonneParIndex L n)))
+            (getPersonneParIndex L n)
+            (getPersonneParTelephone L P (+ n 1)))
+        "introuvable")))
+
+(define getPersonneParNaissance
+  (lambda (L P n)
+    (if (<= n (length L))
+        (if (equal? P (getNaissance (getPersonneParIndex L n)))
+            (getPersonneParIndex L n)
+            (getPersonneParNaissance L P (+ n 1)))
+        "introuvable")))
+
+(define getPersonneParVille
+  (lambda (L P n)
+    (if (<= n (length L))
+        (if (equal? P (getVille (getPersonneParIndex L n)))
+            (getPersonneParIndex L n)
+            (getPersonneParVille L P (+ n 1)))
+        "introuvable")))
         
         
   
