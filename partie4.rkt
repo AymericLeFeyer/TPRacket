@@ -1,11 +1,13 @@
 #lang racket
 
-(define L' ((("Helin" "Dylan" "29/10/1999" 1) (60 "rue Waldeck Rousseaux" 59410 "Anzin" "France") "0652274310")
-            (("Helin" "Steven" "30/10/1999" 2) (60 "rue Waldeck Rousseaux" 59410 "Anzin" "France") "0652274312")
+(define L' ((("Helin" "Dylan" "29/10/1999" 2) (60 "rue Waldeck Rousseaux" 59410 "Anzin" "France") "0652274310")
+            (("Helin" "Steven" "30/10/1999" 1) (60 "rue Waldeck Rousseaux" 59410 "Anzin" "France") "0652274312")
+            (("Test" "Steven" "30/10/1999" 8) (60 "rue Waldeck e" 59410 "Anzien" "France") "0652274512")
             (("Baudelet" "Conrad" "31/10/1999" 3) (23 "rue Test" 59345 "Escaudin" "France") "0652274513")))
 
 (define Aymeric' (("Le Feyer" "Aymeric" "29/10/1999" 4) (60 "rue Waldeck Rousseaux" 59410 "Anzin" "France") "0652274310"))
 (define Conrad' (("Baudelet" "Conrad" "29/10/1999" 3) (60 "rue Waldeck Rousseaux" 59410 "Anzin" "France") "0652274310"))
+
 
 (define creationAdresse
   (lambda (Numero Rue CP Ville Pays)
@@ -47,10 +49,10 @@
   (lambda (P)
     (caddr P)))
 
-
 (define getVille
   (lambda (P)
-    (cdr(car(cdr(cdr(cdr(car(P)))))))))
+    (car (cdr (cdr (cdr (car (cdr P))))))))
+
 
 (define present
   (lambda (L n)
@@ -84,6 +86,11 @@
 
 (define getPersonne
   (lambda (L T P)
+    (listeTriee (getPersonne2 L T P))))
+
+
+(define getPersonne2
+  (lambda (L T P)
     (if (null? L)
         "La base est nulle"
         (if (equal? T "identifiant")
@@ -106,24 +113,24 @@
         (if (= P (getID (getPersonneParIndex L n)))
             (getPersonneParIndex L n)
             (getPersonneParIdentifiant L P (+ n 1)))
-        "introuvable")))
+        '())))
 
 (define getPersonneParNom
   (lambda (L P n)
     (if (<= n (length L))
         (if (equal? P (getNom (getPersonneParIndex L n)))
-            (getPersonneParIndex L n)
+            (cons (getPersonneParIndex L n) (getPersonneParNom L P (+ n 1)))
             (getPersonneParNom L P (+ n 1)))
-        "introuvable")))
+        '())))
         
 
 (define getPersonneParPrenom
   (lambda (L P n)
     (if (<= n (length L))
         (if (equal? P (getPrenom (getPersonneParIndex L n)))
-            (getPersonneParIndex L n)
+            (cons (getPersonneParIndex L n) (getPersonneParPrenom L P (+ n 1)))
             (getPersonneParPrenom L P (+ n 1)))
-        "introuvable")))
+        '())))
 
 (define getPersonneParTelephone
   (lambda (L P n)
@@ -131,23 +138,47 @@
         (if (equal? P (getTelephone (getPersonneParIndex L n)))
             (getPersonneParIndex L n)
             (getPersonneParTelephone L P (+ n 1)))
-        "introuvable")))
+        '())))
 
 (define getPersonneParNaissance
   (lambda (L P n)
     (if (<= n (length L))
         (if (equal? P (getNaissance (getPersonneParIndex L n)))
-            (getPersonneParIndex L n)
+            (cons (getPersonneParIndex L n) (getPersonneParNaissance L P (+ n 1)))
             (getPersonneParNaissance L P (+ n 1)))
-        "introuvable")))
+        '())))
 
 (define getPersonneParVille
   (lambda (L P n)
     (if (<= n (length L))
         (if (equal? P (getVille (getPersonneParIndex L n)))
-            (getPersonneParIndex L n)
+            (cons (getPersonneParIndex L n) (getPersonneParVille L P (+ n 1)))
             (getPersonneParVille L P (+ n 1)))
-        "introuvable")))
+        '())))
+
+(define getAllID
+  (lambda (L)
+    (sort (getAllID2 L 1) <)))
+
+(define getAllID2
+  (lambda (L i)
+    (if (> i (length L))
+        '()
+        (cons (getID (getPersonneParIndex L i)) (getAllID2 L (+ 1 i))))))
+
+(define reconstruireLaListe
+  (lambda (L ID)
+    (reconstruireLaListe2 L ID 0)))
+
+(define reconstruireLaListe2
+  (lambda (L ID i)
+    (if (> i (length ID))
+        '()
+        (cons (getPersonne2 L "identifiant" (car ID)) (reconstruireLaListe2 L (cdr ID) (+ i 1))))))
+
+(define listeTriee
+  (lambda (A)
+    (reconstruireLaListe L (getAllID A))))
         
         
   
