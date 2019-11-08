@@ -91,11 +91,22 @@
         '()
         (concat (list(sommeListe (ligne A n) (ligne B n))) (sommeMatrice2 A B (+ n 1))))))
 
-(define produitLigne
+(define produitLigneLigne
   (lambda (A B)
     (if (null? A)
         0
-        (+ (* (car A) (car B)) (produitLigne (cdr A) (cdr B))))))
+        (+ (* (car A) (car B)) (produitLigneLigne (cdr A) (cdr B))))))
+
+(define produitLigneMatrice
+  (lambda (A B)
+    (produitLigneMatrice2 A B 1 1)))
+
+(define produitLigneMatrice2
+  (lambda (A B i j)
+    (if (< (length B) j)
+        '()
+        (cons (list(produitLigneLigne A (colonne B j))) (produitLigneMatrice2 A B i (+ j 1))))))
+
 
 (define produit
   (lambda (A B)
@@ -103,10 +114,13 @@
 
 (define produit2
   (lambda (A B i j)
-    (if (= i (+ 1 (length A)))
-        '()      
-        (if (= j (+ 1 (length B)))
-            (cons (list(car(produitLigne (ligne A i) (colonne B j)))) (produit2 A B (+ i 1) j))
-            (cons (list(car(produitLigne (ligne A i) (colonne B j)))) (produit2 A B i (+ j 1)))))))
+    (if (< (length A) i)
+        '()
+        (cons (produitLigneMatrice (ligne A i) B) (produit2 A B (+ i 1) j)))))
+
+
+
+
+    
   
     
