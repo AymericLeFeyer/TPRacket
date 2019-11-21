@@ -1,3 +1,5 @@
+#lang racket
+
 (define aireRectangle
   (lambda (w h)
     (* h w)))
@@ -20,3 +22,9 @@
     (if (= i 0)
         0
         (+ (aireRectangle (/ (- b a) n) (f (milieu i a b n))) (calculIntegrale f n a b (- i 1))))))
+    
+    
+
+    
+
+     

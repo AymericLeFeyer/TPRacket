@@ -1,6 +1,3 @@
-#lang racket
-
-
 (define M' ((1.2 6 -1.3)
             (2.5 -1.1 2.9)
             (3.8 -4 -2.7)))
@@ -117,10 +114,3 @@
     (if (< (length A) i)
         '()
         (cons (produitLigneMatrice (ligne A i) B) (produit2 A B (+ i 1) j)))))
-
-
-
-
-    
-  
-    

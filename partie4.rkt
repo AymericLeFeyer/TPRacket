@@ -1,5 +1,3 @@
-#lang racket
-
 (define L' ((("Helin" "Dylan" "29/10/1999" 2) (60 "rue Waldeck Rousseaux" 59410 "Anzin" "France") "0652274310")
             (("Helin" "Steven" "30/10/1999" 1) (60 "rue Waldeck Rousseaux" 59410 "Anzin" "France") "0652274312")
             (("Test" "Steven" "30/10/1999" 8) (60 "rue Waldeck e" 59410 "Anzien" "France") "0652274512")
@@ -136,7 +134,7 @@
   (lambda (L P n)
     (if (<= n (length L))
         (if (equal? P (getTelephone (getPersonneParIndex L n)))
-            (getPersonneParIndex L n)
+            (cons (getPersonneParIndex L n) (getPersonneParTelephone L P (+ n 1)))
             (getPersonneParTelephone L P (+ n 1)))
         '())))
 
@@ -179,8 +177,3 @@
 (define listeTriee
   (lambda (A)
     (reconstruireLaListe L (getAllID A))))
-        
-        
-  
-               
-  

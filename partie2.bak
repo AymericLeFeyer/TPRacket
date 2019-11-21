@@ -91,18 +91,50 @@
         '()
         (concat (list(sommeListe (ligne A n) (ligne B n))) (sommeMatrice2 A B (+ n 1))))))
 
-(define produitLigne
+(define produitLigneLigne
   (lambda (A B)
     (if (null? A)
         0
-        (+ (* (car A) (car B)) (produitLigne (cdr A) (cdr B))))))
+        (+ (* (car A) (car B)) (produitLigneLigne (cdr A) (cdr B))))))
+
+(define produitLigneMatrice
+  (lambda (A B)
+    (produitLigneMatrice2 A B 1 1)))
+
+(define produitLigneMatrice2
+  (lambda (A B i j)
+    (if (< (length B) j)
+        '()
+        (cons (list(produitLigneLigne A (colonne B j))) (produitLigneMatrice2 A B i (+ j 1))))))
+
 
 (define produit
   (lambda (A B)
     (produit2 A B 1 1)))
 
 (define produit2
-  (lambda (A B i j)))
+  (lambda (A B i j)
+    (if (< (length A) i)
+        '()
+        (cons (produitLigneMatrice (ligne A i) B) (produit2 A B (+ i 1) j)))))
+
+
+  
+
+
+(define estSymetrique4?
+  (lambda (M T I J)
+    (if(= (element M I J) (element T I J) )
+       (if(= J (- (length M) 0) )
+          #t
+          (if(= I (- (length M) 0) )
+             (estSymetrique4? M T 1 (+ J 1) )
+             (estSymetrique4? M T (+ I 1) J)
+             )
+          )
+       #f)))
+
+
     
   
     
